@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-09-27">
+<meta name="description" content="Long–short portfolios based on the MAX signal.">
+
+<title>MAX and lottery stocks on B3 – Results May Vary</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-34c204d16844ece06f952fe446145d4b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Results May Vary</span>
+    </a>
+  </div>
+          <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Studies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">In this study</h2>
+   
+  <ul class="collapse">
+  <li><a href="#a-first-post-finally" id="toc-a-first-post-finally" class="nav-link active" data-scroll-target="#a-first-post-finally">A first post, finally</a></li>
+  <li><a href="#the-idea" id="toc-the-idea" class="nav-link" data-scroll-target="#the-idea">The idea</a></li>
+  <li><a href="#calculating-max" id="toc-calculating-max" class="nav-link" data-scroll-target="#calculating-max">Calculating MAX</a></li>
+  <li><a href="#the-original-u.s.-study" id="toc-the-original-u.s.-study" class="nav-link" data-scroll-target="#the-original-u.s.-study">The original U.S. study</a></li>
+  <li><a href="#the-study-in-brazil" id="toc-the-study-in-brazil" class="nav-link" data-scroll-target="#the-study-in-brazil">The study in Brazil</a></li>
+  <li><a href="#my-test-on-b3" id="toc-my-test-on-b3" class="nav-link" data-scroll-target="#my-test-on-b3">My test on B3</a></li>
+  <li><a href="#the-main-differences" id="toc-the-main-differences" class="nav-link" data-scroll-target="#the-main-differences">The main differences</a></li>
+  <li><a href="#high-max-low-max" id="toc-high-max-low-max" class="nav-link" data-scroll-target="#high-max-low-max">High MAX − Low MAX</a></li>
+  <li><a href="#low-max-high-max" id="toc-low-max-high-max" class="nav-link" data-scroll-target="#low-max-high-max">Low MAX − High MAX</a></li>
+  <li><a href="#the-spread-and-the-fund" id="toc-the-spread-and-the-fund" class="nav-link" data-scroll-target="#the-spread-and-the-fund">The spread and the fund</a></li>
+  <li><a href="#back-to-the-brazilian-paper" id="toc-back-to-the-brazilian-paper" class="nav-link" data-scroll-target="#back-to-the-brazilian-paper">Back to the Brazilian paper</a></li>
+  <li><a href="#a-few-limits" id="toc-a-few-limits" class="nav-link" data-scroll-target="#a-few-limits">A few limits</a></li>
+  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up">Wrapping up</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MAX and lottery stocks on B3</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Equities</div>
+    <div class="quarto-category">MAX</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Long–short portfolios based on the MAX signal.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">27 Sep 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="a-first-post-finally" class="level2">
+<h2 data-anchor-id="a-first-post-finally">A first post, finally</h2>
+<p>This is my first post here, and hopefully the first of many. I have a background in engineering and mathematics, work in quant, and spend some of my spare time reading papers for ideas. Eventually, I wanted somewhere to write about what happens when I try those ideas on B3. Most of this will probably be a conversation with my alter egos, but you’re welcome to join in.</p>
+<p>The aim isn’t to reproduce each paper exactly. I want to take an idea, keep it reasonably close to its original form, and see how it behaves in the Brazilian market. There will be simplifications, changes to the original setup, and assumptions needed to run the simulations. I’ll make those explicit in each study.</p>
+<p>Each study will specify the portfolio construction, rebalancing and execution rules. Simulated returns will account for interest on cash, transaction costs and stock-borrow fees.</p>
+<p>I’ll start with simpler ideas, learn from the feedback, and gradually work towards more involved studies. This is also a chance to practise writing after years of being more comfortable with equations than paragraphs. I’d like the posts to be readable while still giving enough detail to follow the test and question its assumptions.</p>
+<p>Everything here is independent research for study, not a recommendation to trade or follow a strategy. Reading about this stuff is a hobby; this blog is a way to take it a little further. If you have a question, criticism, or suggestion, I’d be happy to hear it. My contact details are on the <a href="../../about.html">About page</a>.</p>
+</section>
+<section id="the-idea" class="level2">
+<h2 data-anchor-id="the-idea">The idea</h2>
+<p>Some stocks occasionally record a very large gain in a single day. For investors drawn to the possibility of an exceptional payoff, that can be part of their appeal. They may be willing to pay more for a small chance of a large gain, even at the expense of the average return they can expect. This preference for lottery-like payoffs is the motivation behind the study by <span class="citation" data-cites="bali2011">Bali et al. (<a href="#ref-bali2011" role="doc-biblioref">2011</a>)</span>. Their measure, MAX, is simply the largest daily return a stock recorded during the previous calendar month.</p>
+<p>In their U.S. sample, stocks with high MAX subsequently earn lower returns than stocks with low MAX. The result is consistent with the authors’ interpretation: demand for the possibility of a large payoff may push prices up and expected returns down. <span class="citation" data-cites="berggrun2019">Berggrun et al. (<a href="#ref-berggrun2019" role="doc-biblioref">2019</a>)</span> examine the same idea in Brazil. They also find a negative MAX effect, with stronger evidence after adjusting for risk factors. I’ll return to the differences between the two studies before describing my own test.</p>
+<p>What I want to investigate here is whether that relationship between high- and low-MAX stocks is still present on B3 in a later sample. I’m using the papers as a starting point, rather than trying to reconstruct their historical samples exactly. From there, I’ll examine a portfolio that buys low-MAX stocks and shorts high-MAX stocks, as well as the opposite direction. This lets me look at both the return difference associated with MAX and what remains of it under the financing, cost and execution assumptions of the simulation.</p>
+</section>
+<section id="calculating-max" class="level2">
+<h2 data-anchor-id="calculating-max">Calculating MAX</h2>
+<p>For stock <span class="math inline">\(i\)</span> in calendar month <span class="math inline">\(t\)</span>, the signal is defined as</p>
+<p><span class="math display">\[
+MAX_{i,t} = \max_{d \in t}\left(R_{i,d}\right),
+\]</span></p>
+<p>where <span class="math inline">\(R_{i,d}\)</span> is the stock’s daily return on trading day <span class="math inline">\(d\)</span>. The value computed from month <span class="math inline">\(t\)</span> is used to form the portfolio for month <span class="math inline">\(t+1\)</span>. A portfolio formed at the start of May, for example, uses the daily returns observed during April.</p>
+<p><img src="figures/01-max-signal.svg" class="img-fluid" alt="Daily returns for ABEV3 in April 2015, with the maximum daily return of 2.33% highlighted."></p>
+<p>The economic prediction concerns relative returns: stocks with higher MAX should earn lower returns in the following month than stocks with lower MAX.</p>
+<p>That gives us two useful ways to express the same prediction. To report the anomaly, the usual convention is <strong>High MAX − Low MAX</strong>. If the relationship holds, the expected return spread is negative:</p>
+<p><span class="math display">\[
+\mathbb{E}\left[R^{\text{High MAX}}_{t+1} - R^{\text{Low MAX}}_{t+1}\right] &lt; 0.
+\]</span></p>
+<p>To construct a strategy around that prediction, the direction is reversed: buy low-MAX stocks and short high-MAX stocks. The expected spread for <strong>Low MAX − High MAX</strong> is then positive:</p>
+<p><span class="math display">\[
+\mathbb{E}\left[R^{\text{Low MAX}}_{t+1} - R^{\text{High MAX}}_{t+1}\right] &gt; 0.
+\]</span></p>
+<p>I’ll use both conventions throughout the post: High MAX − Low MAX when comparing the effect with the papers, and Low MAX − High MAX when examining the strategy suggested by it. For the raw return spread, reversing the direction changes only the sign. For the simulated portfolios, each direction has its own costs and cash flows, so their net returns need to be calculated separately.</p>
+</section>
+<section id="the-original-u.s.-study" class="level2">
+<h2 data-anchor-id="the-original-u.s.-study">The original U.S. study</h2>
+<p>Bali, Cakici and Whitelaw study NYSE, Amex and Nasdaq stocks from July 1962 to December 2005. Each month, they calculate MAX from the previous calendar month’s daily returns and sort stocks into ten deciles. Portfolio 1 contains the lowest-MAX stocks, and portfolio 10 the highest. They hold the portfolios for the following month, rebalance monthly, and report both equal-weighted and value-weighted returns.</p>
+<p>For the equal-weighted portfolios, the average <strong>Low MAX − High MAX</strong> return spread is about <strong>0.65% per month</strong>, with a Newey–West t-statistic of <strong>1.83</strong>. In the paper’s High MAX − Low MAX convention, those figures are −0.65% and −1.83. The value-weighted spread is larger, at about <strong>1.03% per month</strong> in the low-minus-high direction.</p>
+<p>The paper also reports alphas from the Fama–French–Carhart four-factor model, which accounts for market, size (SMB), value (HML) and momentum (MOM) exposures. To keep this first post simple, I’ll focus on raw long–short returns and Newey–West inference <span class="citation" data-cites="newey1987">(<a href="#ref-newey1987" role="doc-biblioref">Newey and West 1987</a>)</span>. The return spreads in my comparison will therefore be unadjusted for these factors.</p>
+</section>
+<section id="the-study-in-brazil" class="level2">
+<h2 data-anchor-id="the-study-in-brazil">The study in Brazil</h2>
+<p>Berggrun, Cardona and Lizarzaburu examine Brazilian common stocks from July 2001 to August 2014, including delisted stocks to reduce survivorship bias. Their returns are expressed in U.S. dollars. With a much smaller equity universe than in the U.S., they divide stocks into three groups: P1 contains the lowest-MAX stocks, P2 the middle group, and P3 the highest-MAX stocks. This use of terciles is also the basis for the portfolio construction in my B3 test.</p>
+<p>The authors report both equal-weighted and value-weighted portfolios. Their main comparison takes the return on the high-MAX group minus the return on the low-MAX group:</p>
+<p><span class="math display">\[
+P3 - P1 = \text{High MAX} - \text{Low MAX}.
+\]</span></p>
+<p>For the equal-weighted portfolios, the raw spread averages about <strong>−0.40% per month</strong>, with a <strong>p-value of 0.276</strong>. The direction is consistent with the U.S. finding, though the statistical evidence in the raw spread is weak. After the Carhart adjustment, the estimated alpha is about <strong>−0.80% per month</strong>, with a <strong>p-value of 0.014</strong>.</p>
+<p>The study also removes monthly observations with returns above 300% and winsorizes the monthly data at the 0.5th and 99.5th percentiles to limit the influence of extreme observations. These choices, together with the use of terciles, provide a useful reference for adapting the test to the local market.</p>
+</section>
+<section id="my-test-on-b3" class="level2">
+<h2 data-anchor-id="my-test-on-b3">My test on B3</h2>
+<p>My sample covers B3 common stocks from <strong>May 2015 to September 2026</strong>, with the simulated portfolio series running from 4 May 2015 to 22 September 2026. Returns are measured in Brazilian reais. The Brazilian paper’s sample ends in August 2014, so this test extends the idea into a later period and asks whether the relationship persists.</p>
+<p>The portfolios rebalance on the first trading session of each month. Eligibility includes a trading-activity check over the latest 42 observations, requiring trading activity throughout the available window.</p>
+<p>I require regular trading activity to make monthly rebalancing more plausible. Both low- and high-MAX stocks must pass the same screen. If the MAX effect is stronger among stocks that trade infrequently, this restriction could reduce the spread observed in my sample.</p>
+<p>At each rebalance, I select the bottom and top thirds of the eligible MAX ranking, rounding the number of stocks on each side down to a whole number. Using terciles follows the Brazilian study and spreads each side across a broader set of stocks in B3’s smaller universe. The Low MAX − High MAX portfolio buys the lower tercile and shorts the upper tercile; the opposite portfolio swaps those positions. Each targets a long exposure of 100% of NAV and a short exposure of 100%, giving 200% gross exposure and zero net exposure at the target weights.</p>
+<p>Within each side, stocks receive equal target weights at rebalancing. This gives each name the same initial allocation and makes the equal-weighted results in both papers the relevant reference. The allocation remains spread across the selected stocks regardless of differences in market capitalization.</p>
+<p><img src="figures/02-portfolio-construction.svg" class="img-fluid" alt="Portfolio construction at the first rebalance: 276 B3 common stocks, 190 eligible names, and terciles containing 63, 64 and 63 stocks."></p>
+<p>Before ranking, I winsorize the cross-section of MAX values using the <strong>0.5th and 99.5th percentiles</strong>. Values outside those thresholds are capped at the lowest and highest observations within them. This carries over the Brazilian study’s percentile cutoffs, applied here to the MAX signal. Ties are resolved using traded share quantity, with higher quantity receiving priority in the ranking.</p>
+<p>Stocks with monthly returns above 300% remain in the sample, subject to the same eligibility rules as other stocks. Winsorization acts on the signal used for ranking; the returns realized by the portfolios retain those extreme observations.</p>
+</section>
+<section id="the-main-differences" class="level2">
+<h2 data-anchor-id="the-main-differences">The main differences</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Choice</th>
+<th style="text-align: left;">U.S. paper</th>
+<th style="text-align: left;">This study</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Market</td>
+<td style="text-align: left;">U.S. equities</td>
+<td style="text-align: left;">B3 common stocks</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Period</td>
+<td style="text-align: left;">1962–2005</td>
+<td style="text-align: left;">2015–2026</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Buckets</td>
+<td style="text-align: left;">Deciles</td>
+<td style="text-align: left;">Terciles</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Weighting</td>
+<td style="text-align: left;">Equal and value weighted</td>
+<td style="text-align: left;">Equal weighted</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Risk adjustment</td>
+<td style="text-align: left;">Raw spreads and Carhart four-factor alphas</td>
+<td style="text-align: left;">Unadjusted spreads</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Winsorization</td>
+<td style="text-align: left;">Absent from the baseline sort</td>
+<td style="text-align: left;">0.5th / 99.5th percentiles of MAX</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Trading costs, borrow and cash interest</td>
+<td style="text-align: left;">Raw portfolio returns</td>
+<td style="text-align: left;">Included in the fund simulation</td>
+</tr>
+</tbody>
+</table>
+<p>The extra step is to see how the return spread translates into a fund’s return. Interest on cash can support performance even when the MAX spread is weak, while trading and borrowing costs reduce it. I’ll use the raw spreads for the paper comparison and discuss these implementation effects separately.</p>
+</section>
+<section id="high-max-low-max" class="level2">
+<h2 data-anchor-id="high-max-low-max">High MAX − Low MAX</h2>
+<p>For the first run, I bought the high-MAX tercile and shorted the low-MAX tercile, keeping the same high-minus-low convention used in the papers. I included the fund mechanics from the start: interest on cash, transaction costs and stock-borrow fees paid when positions are covered.</p>
+<p>There are profitable stretches here, especially in the earlier years. By September 2026, though, the initial R$1 million had fallen to about <strong>R$763,000</strong>, a <strong>23.7% loss</strong>. The worst drawdown reached <strong>64.6% below a previous peak</strong> in July 2026.</p>
+<p><img src="figures/03-nav-high-minus-low.svg" class="img-fluid" alt="High MAX minus Low MAX portfolio NAV from May 2015 to September 2026, with a total return of minus 23.7% and a maximum drawdown of minus 64.6%."></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Measure</th>
+<th style="text-align: right;">High MAX − Low MAX</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mean monthly return</td>
+<td style="text-align: right;">−0.20%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Newey–West(4) standard error</td>
+<td style="text-align: right;">0.39%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Newey–West(4) t-statistic</td>
+<td style="text-align: right;">−0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Two-sided p-value</td>
+<td style="text-align: right;">0.61</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total return</td>
+<td style="text-align: right;">−23.7%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CAGR</td>
+<td style="text-align: right;">−2.35%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Maximum drawdown</td>
+<td style="text-align: right;">−64.6%</td>
+</tr>
+</tbody>
+</table>
+<p>Even after that loss, the monthly mean is estimated quite imprecisely. It comes to <strong>−0.20%</strong>, with a standard error of <strong>0.39%</strong> and a p-value of <strong>0.61</strong>. I wouldn’t take that as strong evidence of a negative expected fund return. And because the account includes costs and cash interest, I’ll need the raw stock-return spreads before comparing the result directly with the papers.</p>
+<p>The histogram uses <strong>135 completed months, from June 2015 to August 2026</strong>, which are also the observations used in the monthly test. The full-period figures use the daily series, with CAGR calculated over the elapsed calendar time.</p>
+<p><img src="figures/11-high-minus-low-monthly-distribution.svg" class="img-fluid" alt="Distribution of 135 monthly returns for High MAX minus Low MAX, with zero and the mean of minus 0.20% marked."></p>
+<p>I also wanted to see how often a full year in this portfolio would have been profitable. The rolling 12-month returns are positive for much of the early sample, change sign several times, and spend the final stretch below zero.</p>
+<p><img src="figures/12-high-minus-low-rolling-12-months.svg" class="img-fluid" alt="Rolling 12-month returns for High MAX minus Low MAX, calculated from completed calendar months."></p>
+<p>In calendar-year terms, <strong>2016 gained 36.8%</strong>, while <strong>2022 lost 24.7%</strong> and <strong>2024 lost 24.6%</strong>. So there were years when holding this side worked quite well, followed by years that gave back a substantial amount of money.</p>
+<p><img src="figures/13-high-minus-low-annual-returns.svg" class="img-fluid" alt="Annual returns for High MAX minus Low MAX, with partial periods labeled for May to December 2015 and January to September 2026."></p>
+</section>
+<section id="low-max-high-max" class="level2">
+<h2 data-anchor-id="low-max-high-max">Low MAX − High MAX</h2>
+<p>For the second run, I swapped the positions: buy low MAX, short high MAX. This is the direction I’d use to test a strategy based on the paper’s finding that high-MAX stocks subsequently underperform.</p>
+<p>Bali and coauthors discuss exactly this in their conclusion, when considering why other investors haven’t traded the effect away. Exploiting it “would require shorting stocks with extreme positive returns” <span class="citation" data-cites="bali2011">(<a href="#ref-bali2011" role="doc-biblioref">Bali et al. 2011, 445</a>)</span>. They point to the difficulty or reluctance to sell short, and to the fact that these stocks tend to be small and illiquid. Trading costs could make the strategy difficult to implement. In my inverted portfolio, those high-MAX stocks are precisely the ones I need to borrow and sell short.</p>
+<p>This time, the initial R$1 million grows to about <strong>R$2.07 million</strong>. That’s a <strong>107.3% return</strong>, or <strong>6.61% a year</strong>, over a little more than eleven years. I’ve put both runs on the same chart so we can follow the two directions through the same periods.</p>
+<p><img src="figures/05-both-navs.svg" class="img-fluid" alt="Both simulated portfolios normalized to one in May 2015. By September 2026, Low MAX minus High MAX reaches approximately 2.07 and High MAX minus Low MAX approximately 0.76."></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Measure</th>
+<th style="text-align: right;">Low MAX − High MAX</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mean monthly return</td>
+<td style="text-align: right;">+0.73%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Newey–West(4) standard error</td>
+<td style="text-align: right;">0.42%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Newey–West(4) t-statistic</td>
+<td style="text-align: right;">1.74</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Two-sided p-value</td>
+<td style="text-align: right;">0.082</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total return</td>
+<td style="text-align: right;">+107.3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CAGR</td>
+<td style="text-align: right;">+6.61%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Annualized volatility</td>
+<td style="text-align: right;">16.8%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Maximum drawdown</td>
+<td style="text-align: right;">−50.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Winning months</td>
+<td style="text-align: right;">64.4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Trailing 3-year annualized return</td>
+<td style="text-align: right;">+22.52%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Trailing 5-year annualized return</td>
+<td style="text-align: right;">+24.27%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Trailing 10-year annualized return</td>
+<td style="text-align: right;">+8.45%</td>
+</tr>
+</tbody>
+</table>
+<p>There’s some evidence of a positive expected fund return, but it’s modest: the test reaches significance at <strong>10%</strong>, but falls short of the usual <strong>5%</strong> threshold. I’d want to see how the result holds up in another sample before relying much on that average.</p>
+<p>The part I’d find hardest to live with is the <strong>50.4% drawdown</strong>. By June 2021, the portfolio had lost about half its value from its previous peak. The recovery and much of the gain came later. That’s why the three- and five-year annualized returns are above 20%, while the full-period CAGR is 6.61%: they cover a much better stretch of the same strategy.</p>
+<p>I’ve kept the same 135 months and annualization conventions for both portfolios. The trailing windows end on 22 September 2026; volatility uses daily simple returns and 252 trading sessions per year.</p>
+<p>There is still some accounting to do before attributing the gain to MAX. Both portfolios pay trading costs, but they borrow different stocks and earn interest on different cash balances as their positions change. Returns also compound differently in each run. Next, I’ll separate those amounts so we can see how much came from the stocks and how much came from running the portfolio.</p>
+</section>
+<section id="the-spread-and-the-fund" class="level2">
+<h2 data-anchor-id="the-spread-and-the-fund">The spread and the fund</h2>
+<p>The cash account is one reason I wanted both versions of this test. If the gains and losses on the stocks roughly cancel out, the cash can still earn interest. A positive fund return could therefore owe quite a lot to CDI, even with a weak MAX spread.</p>
+<p>For the comparison with the papers, I start with the difference between the monthly returns of the two groups:</p>
+<p><span class="math display">\[
+R_{\text{spread}} = R_{\text{Low MAX}} - R_{\text{High MAX}}.
+\]</span></p>
+<p>That is where I look for evidence that low-MAX stocks subsequently outperform high-MAX stocks. Once I put those positions into a simulated fund, the account also has trading expenses, borrowing fees and interest on cash. The daily return can be summarized as</p>
+<p><span class="math display">\[
+R_{\text{fund}}
+\approx R_{\text{long-short}}
++ R_{\text{cash}}
+- C_{\text{borrow}}
+- C_{\text{trading}}
+- C_{\text{slippage}}.
+\]</span></p>
+<p>Here, the terms represent contributions relative to the fund’s NAV. The stock contribution depends on the positions actually held and their execution prices; the full-period return comes from compounding the daily fund returns.</p>
+<p>For these runs, I used the following assumptions:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Item</th>
+<th style="text-align: left;">Assumption</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cash interest</td>
+<td style="text-align: left;">CDI applied to the cash balance</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stock borrowing</td>
+<td style="text-align: left;">Available daily borrow rates, with a 4.5% annual fallback, applied to short market value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Trading costs</td>
+<td style="text-align: left;">10 bps of traded value on each purchase or sale</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Slippage</td>
+<td style="text-align: left;">0 bps</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>4.5% borrow rate is a fallback</strong>: whenever the dataset provides a rate for the stock on that date, the simulation uses it. Reversing the portfolio changes which stocks I borrow and the rates I pay. Borrow fees accumulate daily and are paid as short positions are covered. The NAV shown above recognizes those payments; outstanding fees are tracked separately, along with a NAV series that deducts them.</p>
+<p>I set slippage to zero to keep this first test simple. That makes the execution assumptions optimistic. Each purchase or sale costs 10 bps of traded value, so costs increase with turnover.</p>
+<p>CDI belongs to the return on cash held alongside the positions. The MAX effect is the return difference between the stock groups. I want to judge that difference on its own first, then see what it leaves after paying to trade and borrow the stocks. Cash interest contributes to the fund’s total return, but I’d give the stock selection credit only for what comes from the positions themselves.</p>
+</section>
+<section id="back-to-the-brazilian-paper" class="level2">
+<h2 data-anchor-id="back-to-the-brazilian-paper">Back to the Brazilian paper</h2>
+<p>With the fund results out of the way, I can return to the comparison that motivated the test. I took the same monthly stock groups selected for the simulation, calculated their returns with equal weights at formation, and held those allocations through the month. Subtracting the low-MAX group’s return from the high-MAX group’s return gives the raw spread to compare with the papers. I’ve put both studies alongside my results below, with the B3 spread shown in both directions. All four columns use equal-weighted returns, before the fund’s cash interest and costs.</p>
+<table class="caption-top table">
+<caption>Main empirical results: raw monthly MAX spreads.</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Result</th>
+<th style="text-align: left;">U.S. EW</th>
+<th style="text-align: left;">Brazil EW</th>
+<th style="text-align: left;">B3 replication sign</th>
+<th style="text-align: left;">B3 tradable sign</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Portfolio direction</td>
+<td style="text-align: left;">High − Low</td>
+<td style="text-align: left;">High − Low</td>
+<td style="text-align: left;">High − Low</td>
+<td style="text-align: left;">Low − High</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monthly mean</td>
+<td style="text-align: left;">−0.65%</td>
+<td style="text-align: left;">About −0.40%</td>
+<td style="text-align: left;">−0.53%</td>
+<td style="text-align: left;">+0.53%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NW t-stat</td>
+<td style="text-align: left;">−1.83</td>
+<td style="text-align: left;">Not reported</td>
+<td style="text-align: left;">−1.31</td>
+<td style="text-align: left;">+1.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">p-value</td>
+<td style="text-align: left;">Not reported</td>
+<td style="text-align: left;">0.276</td>
+<td style="text-align: left;">0.191</td>
+<td style="text-align: left;">0.191</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sample period</td>
+<td style="text-align: left;">Jul 1962–Dec 2005</td>
+<td style="text-align: left;">Jul 2001–Aug 2014</td>
+<td style="text-align: left;">May 2015–Aug 2026</td>
+<td style="text-align: left;">May 2015–Aug 2026</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monthly observations</td>
+<td style="text-align: left;">522</td>
+<td style="text-align: left;">Not reported</td>
+<td style="text-align: left;">136</td>
+<td style="text-align: left;">136</td>
+</tr>
+</tbody>
+</table>
+<p>The paper returns are in USD; mine are in BRL. The B3 tests use Newey–West standard errors with four lags. “Not reported” marks statistics the papers do not supply for their raw spread, including the Brazilian spread’s observation count.</p>
+<p>I get the same direction in the later sample: high-MAX stocks earn less on average. The raw-return tests also have something else in common: the statistical evidence is weak. My estimate is a little more negative, but a p-value of <strong>0.191</strong> leaves limited evidence that the expected spread differs from zero. I’d also keep the different periods and currencies in mind when comparing the magnitudes, alongside the portfolio choices described earlier.</p>
+<p>The raw calculation has <strong>136 complete months</strong>, including May 2015, whose return can be measured from the previous month’s closing prices. Restricting it to the same 135 months used in the fund tests gives <strong>−0.56% per month</strong>, with a p-value of <strong>0.179</strong>. That leaves the reading broadly unchanged.</p>
+<section id="a-check-using-both-runs" class="level3">
+<h3 data-anchor-id="a-check-using-both-runs">A check using both runs</h3>
+<p>I also tried a simple calculation using the two simulated portfolios. Suppose their returns could be written as a shared contribution <span class="math inline">\(C\)</span> plus or minus a stock-return component <span class="math inline">\(S\)</span>:</p>
+<p><span class="math display">\[
+R_{+} = C + S,
+\qquad
+R_{-} = C - S,
+\]</span></p>
+<p>where <span class="math inline">\(R_{+}\)</span> is the Low MAX − High MAX fund return and <span class="math inline">\(R_{-}\)</span> is the opposite direction. Then</p>
+<p><span class="math display">\[
+S = \frac{R_{+}-R_{-}}{2},
+\qquad
+C = \frac{R_{+}+R_{-}}{2}.
+\]</span></p>
+<p>Applying that arithmetic to the <strong>135 paired monthly returns</strong>, the half-difference averages <strong>+0.46% per month</strong>, and the half-sum averages <strong>+0.27%</strong>. The +0.46% is close to the paper’s +0.40% after reversing its reporting sign, which makes it tempting to read the half-difference as the MAX effect.</p>
+<p>I would stop short of that interpretation. Calling <span class="math inline">\(S\)</span> the stock-return component requires the other contributions to match across the two runs. Here, borrowing fees, cash balances, trading and position sizes differ between directions. The half-difference picks up some of those differences too. I keep it as an additional diagnostic; the comparison with the paper rests on the <strong>directly calculated raw spread of −0.53% per month</strong>.</p>
+</section>
+</section>
+<section id="a-few-limits" class="level2">
+<h2 data-anchor-id="a-few-limits">A few limits</h2>
+<p>I’d be careful about extending these results beyond this B3 sample. Other periods and portfolio weights could give a different answer. With fewer stocks to work with, individual names can also have more influence, even when using terciles. And since I left the Carhart tests out to keep this first post simple, I haven’t established how much of the spread remains after controlling for those risk factors.</p>
+<p>There’s also the distance between simulating a trade and getting it done. The borrowing rates in the data don’t guarantee that I could have borrowed every stock, in the required quantity, at those rates. The 4.5% fallback fills gaps in the rate history; it doesn’t establish availability. Zero slippage is another optimistic simplification. In live trading, <em>results may vary</em>. I did put it in the name.</p>
+<p>Stocks that were later delisted remain in the dataset with their available price histories. When calculating the raw monthly spreads, I use the last available adjusted close to value a position if its quote is missing. Around a suspension or delisting, that price can differ from the amount a shareholder ultimately receives.</p>
+</section>
+<section id="wrapping-up" class="level2">
+<h2 data-anchor-id="wrapping-up">Wrapping up</h2>
+<p>I came to this test wondering whether the MAX idea would show up in a later B3 sample. On average, it does point in the same direction: high-MAX stocks underperform low-MAX stocks. The raw spread is close in magnitude to the earlier Brazilian estimate and smaller than the U.S. equal-weighted result. There’s considerable uncertainty around my estimate, though, so I’d be cautious about expecting that average to persist.</p>
+<p>The trading result is less encouraging. From 4 May 2015 to 22 September 2026, the Low MAX − High MAX portfolio gained <strong>107.3%</strong>, against <strong>190.3% for CDI</strong> and <strong>231.8% for Ibovespa</strong>. It fell short of both benchmarks even with interest on cash included, while suffering a <strong>50.4% drawdown</strong>. Add the modest statistical evidence, and I see little in this run to justify the complexity of maintaining the long–short portfolio.</p>
+<p>What keeps me interested is how far such a simple idea travels: rank stocks by a single day’s gain, then look at what happens over the following month. Decades after the original U.S. sample, the average relationship still points the same way here. For a first post, that gives me plenty to think about and a reason to keep reading and testing.</p>
+</section>
+<section id="references" class="level2">
+<h2 data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bali2011" class="csl-entry" role="listitem">
+Bali, Turan G., Nusret Cakici, and Robert F. Whitelaw. 2011. <span>“Maxing Out: Stocks as Lotteries and the Cross-Section of Expected Returns.”</span> <em>Journal of Financial Economics</em> 99 (2): 427–46. <a href="https://doi.org/10.1016/j.jfineco.2010.08.014">https://doi.org/10.1016/j.jfineco.2010.08.014</a>.
+</div>
+<div id="ref-berggrun2019" class="csl-entry" role="listitem">
+Berggrun, Luis, Emilio Cardona, and Edmundo Lizarzaburu. 2019. <span>“Extreme Daily Returns and the Cross-Section of Expected Returns: Evidence from <span>Brazil</span>.”</span> <em>Journal of Business Research</em> 102: 201–11. <a href="https://doi.org/10.1016/j.jbusres.2017.07.005">https://doi.org/10.1016/j.jbusres.2017.07.005</a>.
+</div>
+<div id="ref-newey1987" class="csl-entry" role="listitem">
+Newey, Whitney K., and Kenneth D. West. 1987. <span>“A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix.”</span> <em>Econometrica</em> 55 (3): 703–8. <a href="https://doi.org/10.2307/1913610">https://doi.org/10.2307/1913610</a>.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/resultsmay-vary\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Independent research. Brazilian markets.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Results may vary. That’s the point.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
