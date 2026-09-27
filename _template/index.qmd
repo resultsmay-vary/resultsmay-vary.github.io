@@ -1,0 +1,34 @@
+---
+title: "Your study title"
+date: 2026-09-27
+description: "The question this study investigates, in one sentence."
+categories: [Equities]
+---
+
+## The question
+
+What are you testing? Link to the original paper here.
+
+## The B3 adaptation
+
+Describe the universe, signal, portfolio, execution rules, and costs.
+
+## Data and method
+
+Explain the sources, sample period, and how you avoid using future information.
+
+## Results
+
+Write your findings here. Put chart files in this folder and embed them like this:
+
+<!-- Delete this comment and uncomment the image when you have a chart.
+![Cumulative returns after costs](returns.png)
+-->
+
+## Limitations
+
+What could change the interpretation?
+
+## Conclusion
+
+What did you learn?

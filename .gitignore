@@ -1,0 +1,23 @@
+/_site/
+/.quarto/
+/.venv/
+.DS_Store
+
+**/*.quarto_ipynb
+
+# Local research data and scripts
+/scripts/
+/posts/*/data/
+__pycache__/
+
+# Local figure previews and unused charts
+/posts/max-lottery/figures/*.png
+/posts/max-lottery/figures/index.html
+/posts/max-lottery/figures/README.md
+/posts/max-lottery/figures/manifest.json
+/posts/max-lottery/figures/04-nav-low-minus-high.svg
+/posts/max-lottery/figures/06-annual-returns.svg
+/posts/max-lottery/figures/07-rolling-12-months.svg
+/posts/max-lottery/figures/08-monthly-distribution.svg
+/posts/max-lottery/figures/09-exposure.svg
+/posts/max-lottery/figures/10-drawdowns.svg

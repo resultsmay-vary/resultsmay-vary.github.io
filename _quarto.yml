@@ -1,0 +1,43 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "posts/**/*.qmd"
+
+website:
+  title: "Results May Vary"
+  description: "From academic papers to tradable strategies on B3."
+  site-url: https://resultsmay-vary.github.io
+  search: false
+  navbar:
+    collapse: false
+    right:
+      - href: index.qmd
+        text: Studies
+      - href: about.qmd
+        text: About
+  page-footer:
+    left: "Independent research. Brazilian markets."
+    right: "Results may vary. That's the point."
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    grid:
+      body-width: 1400px
+      sidebar-width: 0px
+      margin-width: 200px
+      gutter-width: 24px
+    lang: en
+    date-format: "DD MMM YYYY"
+    toc: false
+    anchor-sections: false
+    smooth-scroll: false
+    link-external-newwindow: false
+
+editor:
+  render-on-save: true
+
+execute:
+  enabled: false

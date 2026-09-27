@@ -1,0 +1,39 @@
+---
+title: "From paper to market."
+pagetitle: "Results May Vary — From paper to market"
+title-block-banner: false
+page-layout: full
+body-classes: home
+listing:
+  contents: posts/*/index.qmd
+  sort: "date desc"
+  type: default
+  fields: [date, title, description, categories]
+  categories: false
+  sort-ui: false
+  filter-ui: false
+  page-size: 20
+---
+
+::: {.intro}
+::: {.eyebrow}
+NOTES TO MYSELF / B3, BRAZIL
+:::
+
+# From paper<br>to market.
+
+What happens when an idea from quantitative research becomes a tradable strategy on the Brazilian exchange?
+
+A place to explore ideas from papers and see how they work in the Brazilian market.
+:::
+
+::: {.section-label}
+NOTES & STUDIES
+:::
+
+::: {.sample-note}
+Posts
+:::
+
+::: {#listing}
+:::

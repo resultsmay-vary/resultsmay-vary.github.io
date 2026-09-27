@@ -1,0 +1,22 @@
+---
+title: "About"
+description: "About Results May Vary"
+---
+
+I have a background in engineering and mathematics, and I've been working in quant for about two years. I really enjoy reading papers for ideas. At some point, reading turned into wanting to replicate things: partly to see whether I could get similar results, partly to understand how they behaved when I changed the assumptions. And, quite often, to ask what would happen if I tried them on B3.
+
+This site is somewhere to put those experiments and talk to myself about them, with the slight possibility that someone else finds them interesting. Writing things down also makes it harder to skip over the parts I haven't quite understood yet.
+
+Everything here is independent research, purely for study. None of it is a recommendation to place a trade or follow a strategy.
+
+The tests run on a mature simulation engine that has been in development for a while. Comparisons with live trading give me reasonable confidence that the simulations capture how the strategies tend to behave in practice, though there are always differences between a simulation and actual trading. Results may vary. At least the website name is doing some useful work.
+
+The first ideas will be fairly simple. I'm also using this as an excuse to practise writing: several years in STEM have left me much more comfortable with an equation than with the question of where a paragraph should end. Hopefully both the studies and the sentences will get a little more elaborate with time.
+
+I don't expect many people to stick around and read all of this, but I'd be very happy to hear from anyone who does. Criticism, questions, disagreements, or a paper you think I might enjoy are all welcome. If something is unclear, feel free to ask. There's a decent chance that talking about it will help both of us.
+
+You can reach me at [rmayvary@proton.me](mailto:rmayvary@proton.me).
+
+---
+
+[← Back to the studies](index.qmd)
